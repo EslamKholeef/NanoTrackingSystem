@@ -1,0 +1,6 @@
+@NanoApi_HostAddress = http://localhost:5146
+
+GET {{NanoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

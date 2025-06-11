@@ -34,7 +34,7 @@ namespace Persistence.Data
             ApplyEntityConfigurations(builder);
 
             // Also We Can Use This :) ... Auto-apply all configurations from current assembly
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            // builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         private static void ApplyEntityConfigurations(ModelBuilder builder)
