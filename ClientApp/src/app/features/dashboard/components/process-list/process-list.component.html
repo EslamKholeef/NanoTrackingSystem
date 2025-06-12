@@ -1,0 +1,108 @@
+<div class="process-list-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>All Processes</mat-card-title>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="startNewProcess()">
+          <mat-icon>add</mat-icon>
+          Start Process
+        </button>
+        <button mat-icon-button (click)="loadProcesses()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+              {{ status.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline">
+          <mat-label>Workflow ID</mat-label>
+          <input matInput formControlName="workflowId" type="number">
+        </mat-form-field>
+      </form>
+
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <div *ngIf="!loading && processes.length === 0" class="no-processes">
+        <mat-icon>assignment</mat-icon>
+        <p>No processes found</p>
+      </div>
+
+      <div class="table-container" *ngIf="!loading && processes.length > 0">
+        <table mat-table [dataSource]="processes" class="processes-table">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let process">{{ process.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="workflowName">
+            <th mat-header-cell *matHeaderCellDef>Workflow</th>
+            <td mat-cell *matCellDef="let process">{{ process.workflowName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="initiator">
+            <th mat-header-cell *matHeaderCellDef>Initiator</th>
+            <td mat-cell *matCellDef="let process">{{ process.initiatorId }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let process">
+              <mat-chip [color]="getStatusColor(process.status)">
+                {{ process.status }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="currentStep">
+            <th mat-header-cell *matHeaderCellDef>Current Step</th>
+            <td mat-cell *matCellDef="let process">
+              <mat-chip *ngIf="process.currentStep" color="primary">
+                {{ process.currentStep }}
+              </mat-chip>
+              <span *ngIf="!process.currentStep" class="completed-text">Completed</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="startedAt">
+            <th mat-header-cell *matHeaderCellDef>Started</th>
+            <td mat-cell *matCellDef="let process">{{ process.startedAt | date:'short' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let process">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>visibility</mat-icon>
+                  <span>View Details</span>
+                </button>
+                <button mat-menu-item *ngIf="process.status === 'Active'">
+                  <mat-icon>play_arrow</mat-icon>
+                  <span>Execute Step</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

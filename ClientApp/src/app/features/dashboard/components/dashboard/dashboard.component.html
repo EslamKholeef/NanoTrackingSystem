@@ -1,0 +1,38 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary">
+    <span>Workflow Tracking System</span>
+    <span class="spacer"></span>
+    <span *ngIf="currentUser">{{ currentUser.firstName }} {{ currentUser.lastName }}</span>
+    <button mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="dashboard-content">
+    <mat-card class="welcome-card">
+      <mat-card-content>
+        <h2>Welcome, {{ currentUser?.firstName }}!</h2>
+        <p>Role: <mat-chip><mat-chip *ngFor="let role of currentUser?.roles">{{ role }}</mat-chip></mat-chip></p>
+        <p>Department: {{ currentUser?.department }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-tab-group (selectedTabChange)="onTabChange($event.index)">
+      <mat-tab label="My Tasks">
+        <app-my-tasks></app-my-tasks>
+      </mat-tab>
+      
+      <mat-tab label="All Processes">
+        <app-process-list></app-process-list>
+      </mat-tab>
+      
+      <mat-tab label="Workflows" *ngIf="currentUser?.roles?.includes('Admin') || currentUser?.roles?.includes('Manager')">
+        <app-workflow-list></app-workflow-list>
+      </mat-tab>
+      
+      <mat-tab label="Create Workflow" *ngIf="currentUser?.roles?.includes('Admin')">
+        <app-create-workflow></app-create-workflow>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

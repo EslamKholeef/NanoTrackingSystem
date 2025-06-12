@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    public enum ValidationResult
+    public enum StepValidationResult
     {
         Success = 1,
         Failed = 2,

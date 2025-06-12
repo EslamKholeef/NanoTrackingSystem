@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Enums;
 
+using System.ComponentModel.DataAnnotations;
 namespace Domain.Entities
 {
     public class ProcessValidationLog
@@ -18,7 +14,7 @@ namespace Domain.Entities
         [MaxLength(500)]
         public string? ValidationEndpoint { get; set; }
 
-        public ValidationResult ValidationResult { get; set; }
+        public StepValidationResult ValidationResult { get; set; }
 
         [MaxLength(2000)]
         public string? ValidationResponse { get; set; }

@@ -1,0 +1,116 @@
+<div class="create-workflow-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create New Workflow</mat-card-title>
+      <div class="header-actions">
+        <button mat-stroked-button (click)="loadSampleWorkflow()">
+          Load Sample
+        </button>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="workflowForm" (ngSubmit)="onSubmit()">
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Workflow Name</mat-label>
+          <input matInput formControlName="name" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+
+        <div class="steps-section">
+          <h3>Workflow Steps</h3>
+          
+          <div formArrayName="steps">
+            <mat-expansion-panel 
+              *ngFor="let step of steps.controls; let i = index" 
+              [formGroupName]="i"
+              class="step-panel">
+              
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Step {{ i + 1 }}: {{ step.get('stepName')?.value || 'New Step' }}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ step.get('assignedTo')?.value }} - {{ step.get('actionType')?.value }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="step-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Step Name</mat-label>
+                  <input matInput formControlName="stepName" required>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Assigned To</mat-label>
+                  <mat-select formControlName="assignedTo" required>
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                      {{ role }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Action Type</mat-label>
+                  <mat-select formControlName="actionType" required>
+                    <mat-option *ngFor="let type of actionTypes" [value]="type.value">
+                      {{ type.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Next Step</mat-label>
+                  <input matInput formControlName="nextStep" placeholder="Leave empty for completion">
+                </mat-form-field>
+
+                <div class="validation-section">
+                  <mat-checkbox formControlName="requiresValidation">
+                    Requires External Validation
+                  </mat-checkbox>
+                  
+                  <mat-form-field appearance="outline" *ngIf="step.get('requiresValidation')?.value">
+                    <mat-label>Validation Endpoint</mat-label>
+                    <input matInput formControlName="validationEndpoint">
+                  </mat-form-field>
+                </div>
+
+                <div class="step-actions">
+                  <button 
+                    mat-icon-button 
+                    color="warn" 
+                    type="button" 
+                    (click)="removeStep(i)"
+                    [disabled]="steps.length <= 1">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+
+          <button mat-stroked-button type="button" (click)="addStep()" class="add-step-btn">
+            <mat-icon>add</mat-icon>
+            Add Step
+          </button>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="!workflowForm.valid || loading">
+            <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+            {{ loading ? 'Creating...' : 'Create Workflow' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

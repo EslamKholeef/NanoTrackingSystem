@@ -1,6 +1,6 @@
 ﻿using Shared.Auth;
 
-namespace Application.Services
+namespace Domain.Interfaces
 {
     public interface IAuthService
     {

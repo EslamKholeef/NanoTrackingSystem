@@ -1,6 +1,7 @@
 ﻿using Application.Services;
 using Shared.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Interfaces;
 
 namespace NanoApi.Controllers
 {

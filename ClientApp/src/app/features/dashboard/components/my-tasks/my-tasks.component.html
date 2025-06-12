@@ -1,0 +1,55 @@
+<div class="my-tasks-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>My Tasks</mat-card-title>
+      <button mat-icon-button (click)="loadMyTasks()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <div *ngIf="!loading && tasks.length === 0" class="no-tasks">
+        <mat-icon>task_alt</mat-icon>
+        <p>No tasks assigned to you</p>
+      </div>
+
+      <table mat-table [dataSource]="tasks" *ngIf="!loading && tasks.length > 0" class="tasks-table">
+        <ng-container matColumnDef="workflowName">
+          <th mat-header-cell *matHeaderCellDef>Workflow</th>
+          <td mat-cell *matCellDef="let task">{{ task.workflowName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="currentStep">
+          <th mat-header-cell *matHeaderCellDef>Current Step</th>
+          <td mat-cell *matCellDef="let task">
+            <mat-chip color="primary">{{ task.currentStep }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="startedAt">
+          <th mat-header-cell *matHeaderCellDef>Started</th>
+          <td mat-cell *matCellDef="let task">{{ task.startedAt | date:'short' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let task">
+            <button mat-raised-button color="primary" (click)="executeTask(task, 'approve')" class="action-btn">
+              Approve
+            </button>
+            <button mat-raised-button color="warn" (click)="executeTask(task, 'reject')" class="action-btn">
+              Reject
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

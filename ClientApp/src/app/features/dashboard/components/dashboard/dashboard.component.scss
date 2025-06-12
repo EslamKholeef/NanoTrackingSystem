@@ -1,0 +1,23 @@
+.dashboard-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+.welcome-card {
+  margin-bottom: 20px;
+}
+
+mat-tab-group {
+  height: calc(100vh - 200px);
+}

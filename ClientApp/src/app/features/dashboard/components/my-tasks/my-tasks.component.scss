@@ -1,0 +1,107 @@
+.my-tasks-container {
+  padding: 20px;
+  height: 100%;
+}
+
+mat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  
+  mat-card-title {
+    flex: 1;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}
+
+mat-card-content {
+  flex: 1;
+  padding: 20px 0 0 0;
+  overflow: auto;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.no-tasks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #757575;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    color: #bdbdbd;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.tasks-table {
+  width: 100%;
+  background: white;
+  
+  th {
+    font-weight: 600;
+    color: #424242;
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  td {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.action-btn {
+  margin-right: 8px;
+  min-width: 80px;
+  
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+mat-chip {
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .my-tasks-container {
+    padding: 10px;
+  }
+  
+  .tasks-table {
+    font-size: 0.9rem;
+  }
+  
+  .action-btn {
+    min-width: 70px;
+    font-size: 0.8rem;
+    margin-right: 4px;
+  }
+}

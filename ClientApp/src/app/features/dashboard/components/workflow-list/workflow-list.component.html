@@ -1,0 +1,85 @@
+<div class="workflow-list-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Workflows</mat-card-title>
+      <button mat-icon-button (click)="loadWorkflows()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <div *ngIf="!loading && workflows.length === 0" class="no-workflows">
+        <mat-icon>account_tree</mat-icon>
+        <p>No workflows found</p>
+        <p class="hint">Create a workflow first in the "Create Workflow" tab</p>
+      </div>
+
+      <table mat-table [dataSource]="workflows" *ngIf="!loading && workflows.length > 0" class="workflows-table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let workflow">{{ workflow.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let workflow">
+            <strong>{{ workflow.name }}</strong>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let workflow">
+            <span class="description">{{ workflow.description || 'No description' }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="stepsCount">
+          <th mat-header-cell *matHeaderCellDef>Steps</th>
+          <td mat-cell *matCellDef="let workflow">
+            <mat-chip color="accent">{{ workflow.stepsCount || workflow.steps?.length || 0 }} steps</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Created</th>
+          <td mat-cell *matCellDef="let workflow">{{ workflow.createdAt | date:'short' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let workflow">
+            <mat-chip [color]="workflow.isActive ? 'primary' : 'warn'">
+              {{ workflow.isActive ? 'Active' : 'Inactive' }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let workflow">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="startProcess(workflow.id)"
+              [disabled]="!workflow.isActive"
+              class="action-btn">
+              <mat-icon>play_arrow</mat-icon>
+              Start Process
+            </button>
+            <button mat-icon-button (click)="toggleWorkflowStatus(workflow)">
+              <mat-icon>{{ workflow.isActive ? 'pause' : 'play_arrow' }}</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
