@@ -16,62 +16,68 @@ Node.js 18+
 SQL Server (LocalDB is fine)
 Backend Setup
 
-# 1. Clone and navigate to project
-# 2. Update connection string in API/appsettings.development.json
-# 3. Run database migration (creates tables + seeds data automatically)
-# 4. Start the API
-# API runs on: https://localhost:7000
+1. Clone and navigate to project
+2. Update connection string in API/appsettings.development.json
+3. Run database migration (creates tables + seeds data automatically)
+4. Start the API
+API runs on: https://localhost:7000
 
 Frontend Setup
-# 1. Navigate to Angular app
-# 2. Install dependencies
+1. Navigate to Angular app
+2. Install dependencies
 --> npm install
-# 3. Update API URL in src/environments/environment.ts
+3. Update API URL in src/environments/environment.ts
 apiUrl: 'https://localhost:7000/api/v1'
-# 4. Start Angular app
+4. Start Angular app
 --> ng serve
-# App runs on: http://localhost:4200
+App runs on: http://localhost:4200
 Note: Database seeding happens automatically on first run - creates all roles and test users.
 
 📋 Business Process Flow
 Step 1: Admin Creates Workflow
 Admin logs in → Creates "Purchase Approval" workflow:
-├── Step 1: Employee submits request
-├── Step 2: Manager approves/rejects  
-├── Step 3: Finance final approval (with external validation)
-└── Step 4: Process completed
+- Step 1: Employee submits request
+- Step 2: Manager approves/rejects  
+- Step 3: Finance final approval (with external validation)
+- Step 4: Process completed
 
 Step 2: Employee Starts Process
 Employee logs in → Starts new process:
-├── Selects "Purchase Approval" workflow
-├── System creates process instance
-├── First step automatically assigned to employee
-└── Employee receives task in "My Tasks"
+- Selects "Purchase Approval" workflow
+- System creates process instance
+- First step automatically assigned to employee
+- Employee receives task in "My Tasks"
 
 Step 3: Process Execution
 Task Execution Flow:
-├── Employee: Submits purchase request details
-├── System: Auto-assigns to Manager based on role
-├── Manager: Reviews and approves/rejects
-├── System: Validates via external API (if required)
-├── Finance: Final approval based on validation result
-└── System: Completes process, notifies all parties
+- Employee: Submits purchase request details
+- System: Auto-assigns to Manager based on role
+- Manager: Reviews and approves/rejects
+- System: Validates via external API (if required)
+- Finance: Final approval based on validation result
+- System: Completes process, notifies all parties
 
 Step 4: Real-time Tracking
 All users can monitor:
-├── Dashboard: Shows pending tasks, active processes
-├── Process List: Real-time status of all workflows
-├── My Tasks: Personal task queue with actions
-└── Audit Trail: Complete history of all actions
+- Dashboard: Shows pending tasks, active processes
+- Process List: Real-time status of all workflows
+- My Tasks: Personal task queue with actions
+- Audit Trail: Complete history of all actions
 
 
 👥 Test Users (Auto-created during seeding)
-Role	   Email	                    Password	                       What They Can Do
-Admin	admin@nanohealth.com	        Admin123!	         Create workflows, manage users, full system access
-Manager	manager@nanohealth.com	    Manager123!	      Approve requests, view all processes, start workflows
-Finance	finance@nanohealth.com	    Finance123!	      Handle financial approvals, budget validations
-Employee	employee@nanohealth.com	  Employee123!	    Submit requests, execute assigned tasks
 
+-  Email	                Password
+- admin@nanohealth.com	        Admin123!	        
+- manager@nanohealth.com	    Manager123!	      
+- finance@nanohealth.com	    Finance123!	      
+- employee@nanohealth.com	  Employee123!	    
+
+What They Can Do? :
+- Admin:  Create workflows, manage users, full system access
+- Manager: Approve requests, view all processes, start workflows
+- Finance: Handle financial approvals, budget validations
+- Employee: Submit requests, execute assigned tasks
 
 📋 Quick Test Scenario
 Login as Admin → Create a workflow
